@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Image Processing Dashboard — Flask</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header>
+    <h1>🖼️ Image Processing Dashboard</h1>
+    <p>Dijalankan dengan <strong>Flask</strong> — Dokumentasi API:
+      <a class="doc-link" href="/api-docs" target="_blank">Lihat halaman /api-docs</a>
+    </p>
+  </header>
+
+  <div class="container">
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="tab-gray" onclick="showTab('tab-gray')">Grayscale</button>
+      <button class="tab-btn" data-tab="tab-split" onclick="showTab('tab-split')">Split Channel</button>
+      <button class="tab-btn" data-tab="tab-crop" onclick="showTab('tab-crop')">Cropping</button>
+      <button class="tab-btn" data-tab="tab-line" onclick="showTab('tab-line')">Line Detection</button>
+    </div>
+
+    <!-- Grayscale -->
+    <div id="tab-gray" class="panel active">
+      <h2>Grayscale</h2>
+      <p class="desc">Konversi gambar berwarna menjadi grayscale (hitam-putih). Endpoint: <code>POST /api/grayscale</code></p>
+      <div class="form-row">
+        <div class="field">
+          <label>Pilih gambar</label>
+          <input type="file" id="gray-file" accept="image/*" />
+        </div>
+        <button class="run-btn" id="gray-run">Proses</button>
+      </div>
+      <div class="status" id="gray-status"></div>
+      <div class="preview-row">
+        <div class="preview-box"><h3>Original</h3><img id="gray-original" /></div>
+        <div class="preview-box"><h3>Hasil</h3><img id="gray-result" /></div>
+      </div>
+    </div>
+
+    <!-- Split channel -->
+    <div id="tab-split" class="panel">
+      <h2>Split Channel</h2>
+      <p class="desc">Pisahkan gambar menjadi channel Blue, Green, Red (ditampilkan berdampingan). Endpoint: <code>POST /api/split-channels</code></p>
+      <div class="form-row">
+        <div class="field">
+          <label>Pilih gambar</label>
+          <input type="file" id="split-file" accept="image/*" />
+        </div>
+        <button class="run-btn" id="split-run">Proses</button>
+      </div>
+      <div class="status" id="split-status"></div>
+      <div class="preview-row">
+        <div class="preview-box"><h3>Original</h3><img id="split-original" /></div>
+        <div class="preview-box"><h3>Hasil (B | G | R)</h3><img id="split-result" /></div>
+      </div>
+    </div>
+
+    <!-- Crop -->
+    <div id="tab-crop" class="panel">
+      <h2>Cropping</h2>
+      <p class="desc">Potong gambar sesuai koordinat & ukuran. Endpoint: <code>POST /api/crop?x=&y=&width=&height=</code></p>
+      <div class="form-row">
+        <div class="field"><label>Pilih gambar</label><input type="file" id="crop-file" accept="image/*" /></div>
+        <div class="field"><label>X</label><input type="number" id="crop-x" value="0" /></div>
+        <div class="field"><label>Y</label><input type="number" id="crop-y" value="0" /></div>
+        <div class="field"><label>Width</label><input type="number" id="crop-width" value="200" /></div>
+        <div class="field"><label>Height</label><input type="number" id="crop-height" value="200" /></div>
+        <button class="run-btn" id="crop-run">Proses</button>
+      </div>
+      <div class="status" id="crop-status"></div>
+      <div class="preview-row">
+        <div class="preview-box"><h3>Original</h3><img id="crop-original" /></div>
+        <div class="preview-box"><h3>Hasil Crop</h3><img id="crop-result" /></div>
+      </div>
+    </div>
+
+    <!-- Line detection -->
+    <div id="tab-line" class="panel">
+      <h2>Line Detection</h2>
+      <p class="desc">Deteksi garis menggunakan Canny edge detection + Hough Transform. Endpoint: <code>POST /api/line-detection?canny_low=&canny_high=&hough_threshold=</code></p>
+      <div class="form-row">
+        <div class="field"><label>Pilih gambar</label><input type="file" id="line-file" accept="image/*" /></div>
+        <div class="field"><label>Canny Low</label><input type="number" id="line-canny-low" value="50" /></div>
+        <div class="field"><label>Canny High</label><input type="number" id="line-canny-high" value="150" /></div>
+        <div class="field"><label>Hough Threshold</label><input type="number" id="line-hough" value="100" /></div>
+        <button class="run-btn" id="line-run">Proses</button>
+      </div>
+      <div class="status" id="line-status"></div>
+      <div class="preview-row">
+        <div class="preview-box"><h3>Original</h3><img id="line-original" /></div>
+        <div class="preview-box"><h3>Hasil (garis merah)</h3><img id="line-result" /></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>Image Processing Dashboard · Flask backend</footer>
+
+  <script src="/static/dashboard.js"></script>
+</body>
+</html>

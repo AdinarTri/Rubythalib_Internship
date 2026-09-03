@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dokumentasi API — Flask</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    .container { max-width: 900px; }
+    .endpoint {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      margin-bottom: 16px;
+    }
+    .method {
+      display: inline-block;
+      background: var(--accent-2);
+      color: #0f172a;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      margin-right: 8px;
+    }
+    .path { font-family: monospace; font-size: 15px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; }
+    th, td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    code.small { background: #0b1220; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>📄 Dokumentasi API — Flask</h1>
+    <p>Base URL: <code class="small">http://127.0.0.1:5000</code> · <a class="doc-link" href="/">← Kembali ke Dashboard</a></p>
+  </header>
+
+  <div class="container">
+
+    <div class="endpoint">
+      <p><span class="method">POST</span><span class="path">/api/grayscale</span></p>
+      <p>Konversi gambar menjadi grayscale.</p>
+      <table>
+        <tr><th>Body (form-data)</th><th>Tipe</th><th>Keterangan</th></tr>
+        <tr><td>file</td><td>File</td><td>Wajib. File gambar (jpg/png/bmp/dll).</td></tr>
+      </table>
+      <p>Response: <code class="small">image/png</code> (200) atau <code class="small">{"error": "..."}</code> (400).</p>
+    </div>
+
+    <div class="endpoint">
+      <p><span class="method">POST</span><span class="path">/api/split-channels</span></p>
+      <p>Memisahkan gambar menjadi channel Blue, Green, Red — digabung berdampingan dalam satu gambar output.</p>
+      <table>
+        <tr><th>Body (form-data)</th><th>Tipe</th><th>Keterangan</th></tr>
+        <tr><td>file</td><td>File</td><td>Wajib. File gambar.</td></tr>
+      </table>
+      <p>Response: <code class="small">image/png</code> (200) atau <code class="small">{"error": "..."}</code> (400).</p>
+    </div>
+
+    <div class="endpoint">
+      <p><span class="method">POST</span><span class="path">/api/crop</span></p>
+      <p>Memotong gambar sesuai koordinat dan ukuran.</p>
+      <table>
+        <tr><th>Parameter</th><th>Tipe</th><th>Default</th><th>Keterangan</th></tr>
+        <tr><td>file</td><td>File (form-data)</td><td>—</td><td>Wajib. File gambar.</td></tr>
+        <tr><td>x</td><td>int (query/form)</td><td>0</td><td>Koordinat X titik awal crop.</td></tr>
+        <tr><td>y</td><td>int (query/form)</td><td>0</td><td>Koordinat Y titik awal crop.</td></tr>
+        <tr><td>width</td><td>int (query/form)</td><td>100</td><td>Lebar area crop.</td></tr>
+        <tr><td>height</td><td>int (query/form)</td><td>100</td><td>Tinggi area crop.</td></tr>
+      </table>
+      <p>Contoh: <code class="small">POST /api/crop?x=10&amp;y=10&amp;width=300&amp;height=200</code></p>
+      <p>Response: <code class="small">image/png</code> (200) atau <code class="small">{"error": "..."}</code> (400).</p>
+    </div>
+
+    <div class="endpoint">
+      <p><span class="method">POST</span><span class="path">/api/line-detection</span></p>
+      <p>Mendeteksi garis menggunakan Canny edge detection + Probabilistic Hough Transform. Garis digambar merah di atas gambar asli.</p>
+      <table>
+        <tr><th>Parameter</th><th>Tipe</th><th>Default</th><th>Keterangan</th></tr>
+        <tr><td>file</td><td>File (form-data)</td><td>—</td><td>Wajib. File gambar.</td></tr>
+        <tr><td>canny_low</td><td>int (query/form)</td><td>50</td><td>Threshold bawah Canny edge detector.</td></tr>
+        <tr><td>canny_high</td><td>int (query/form)</td><td>150</td><td>Threshold atas Canny edge detector.</td></tr>
+        <tr><td>hough_threshold</td><td>int (query/form)</td><td>100</td><td>Minimal vote agar garis dianggap terdeteksi.</td></tr>
+      </table>
+      <p>Response: <code class="small">image/png</code> (200) atau <code class="small">{"error": "..."}</code> (400).</p>
+    </div>
+
+  </div>
+  <footer>Image Processing Dashboard · Flask backend</footer>
+</body>
+</html>
